@@ -19,14 +19,10 @@ library(dplyr)
 library(DT)
 library(tidyr)
 
-# download station metadata; only need to do this once
+# download station metadata; only need to do this once per app session
 meta_coag <- rcoagmet::get_coagmet_meta(network = "coagmet") |> 
   filter(active == "active") |>
   select(station, name, location, elevation_ft, irrigation, timestep_s, network, longitude_deg_e, latitude_deg_n)
-
-
-
-
 
 
 #--------------------------------------------------------------------------
@@ -55,9 +51,9 @@ ui <- fluidPage(
                 a(href = "https://github.com/andypicke/rcoagmet", "rcoagmet"),
                 "package"
              ),
-             #h5("Source code for the app is availabe on ",
-             #    a(href = "https://github.com/andypicke/coagmet_explorer", "github")
-             # )
+             h5("Source code for the app is availabe on ",
+                 a(href = "https://github.com/andypicke/coagmet_daily_viewer", "github")
+              )
     )
   ) # tabsetPanel
   
