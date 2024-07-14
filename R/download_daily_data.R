@@ -9,6 +9,8 @@ download_daily_data <- function(wh_date){
     select(station, date, avg_temp, max_temp, min_temp, solar_rad, precip, rh_max, rh_min) |>
     drop_na() |>
     mutate(rh_max = 100*rh_max, 
-           rh_min = 100*rh_min)
+           rh_min = 100*rh_min) |>
+    mutate(max_temp = if_else(max_temp > -30, max_temp, NA)) 
+  
   
 }
