@@ -99,6 +99,7 @@ server <- function(input, output) {
   output$data_table <- renderDT(
     {
       data_merged() |>
+        select(station, name, location, max_temp, precip, solar_rad) |>
         datatable(
           rownames = FALSE,
           extensions = c("Responsive", "Buttons"),
