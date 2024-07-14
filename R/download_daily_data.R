@@ -10,7 +10,7 @@ download_daily_data <- function(wh_date){
     drop_na() |>
     mutate(rh_max = 100*rh_max, 
            rh_min = 100*rh_min) |>
-    mutate(max_temp = if_else(max_temp > -30, max_temp, NA)) 
-  
+    mutate(max_temp = if_else(max_temp > -30, max_temp, NA)) |>
+    mutate(min_temp = if_else(min_temp > -30, min_temp, NA)) 
   
 }

@@ -38,6 +38,7 @@ ui <- fluidPage(
   
   tabsetPanel(
     tabPanel("Max Temperature",   leaflet::leafletOutput("max_temp_map")),
+    tabPanel("Min Temperature",   leaflet::leafletOutput("min_temp_map")),
     tabPanel("Precipitation", leaflet::leafletOutput("precip_map")),
     tabPanel("Solar Radiation",   leaflet::leafletOutput("solarrad_map")),
     tabPanel("Data Table", DTOutput("data_table")),
@@ -52,8 +53,8 @@ ui <- fluidPage(
                 "package"
              ),
              h5("Source code for the app is availabe on ",
-                 a(href = "https://github.com/andypicke/coagmet_daily_viewer", "github")
-              )
+                a(href = "https://github.com/andypicke/coagmet_daily_viewer", "github")
+             )
     )
   ) # tabsetPanel
   
@@ -85,6 +86,10 @@ server <- function(input, output) {
   output$max_temp_map <- leaflet::renderLeaflet({
     map_data_leaflet(data_merged = data_merged(), var_to_plot = "max_temp", display_name = "Max Temperature <br> [&#176; F]")
   })
+  
+  output$min_temp_map <- leaflet::renderLeaflet({
+    map_data_leaflet(data_merged = data_merged(), var_to_plot = "min_temp", display_name = "Min Temperature <br> [&#176; F]")
+  })
   # 
   output$precip_map <- leaflet::renderLeaflet({
     map_data_leaflet(data_merged = data_merged(), var_to_plot = "precip", display_name = "Precipitation <br> [in]")
@@ -99,7 +104,7 @@ server <- function(input, output) {
   output$data_table <- renderDT(
     {
       data_merged() |>
-        select(station, name, location, max_temp, precip, solar_rad) |>
+        select(station, name, location, max_temp, min_temp, precip, solar_rad) |>
         datatable(
           rownames = FALSE,
           extensions = c("Responsive", "Buttons"),
