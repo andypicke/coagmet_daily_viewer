@@ -8,8 +8,11 @@ map_data_leaflet <- function(data_merged, var_to_plot, display_name = ""){
     mutate(plot_var = pull(data_merged[, which(names(data_merged) == var_to_plot)]) ) |>
     filter(!is.na(plot_var))
   
-  pal <- colorNumeric(palette = "YlOrRd", domain = dat_to_plot$plot_var)
-  
+  if (var_to_plot == "precip") {
+    pal <- colorNumeric(palette = "Blues", domain = dat_to_plot$plot_var)
+  } else {
+    pal <- colorNumeric(palette = "YlOrRd", domain = dat_to_plot$plot_var)
+  }
   
   
   # make labels to show on hover
@@ -18,7 +21,7 @@ map_data_leaflet <- function(data_merged, var_to_plot, display_name = ""){
                         "Network: ", dat_to_plot$network, "<br>",
                         dat_to_plot$date, "<br>",
                         var_to_plot, " : ", dat_to_plot$plot_var)
-                  )
+  )
   
   
   
