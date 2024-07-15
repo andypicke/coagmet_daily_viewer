@@ -16,7 +16,6 @@ library(bslib)
 #devtools::install_github("andypicke/rcoagmet")
 library(rcoagmet)
 library(leaflet)
-library(leaflegend)
 library(dplyr)
 library(DT)
 library(tidyr)
@@ -48,7 +47,7 @@ ui <-
     ),
     
     navset_card_underline(
-      title = "Visualizations",
+      #title = "Visualizations",
       
       # Leaflet map
       nav_panel("Plot", leaflet::leafletOutput("map")),
