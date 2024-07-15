@@ -12,6 +12,7 @@
 
 # Load libraries
 library(shiny)
+library(bslib)
 #devtools::install_github("andypicke/rcoagmet")
 library(rcoagmet)
 library(leaflet)
@@ -28,38 +29,50 @@ meta_coag <- rcoagmet::get_coagmet_meta(network = "coagmet") |>
 #--------------------------------------------------------------------------
 # UI
 #--------------------------------------------------------------------------
-ui <- fluidPage(
+ui <- 
   
-  # Application title
-  titlePanel("CoAgMet Daily Viewer"),
-  
-  # Date input ; Default value is the date in client's time zone
-  dateInput(inputId = "date_to_plot", label = "Date To View:", value = Sys.Date() - 1 , max = Sys.Date() - 1),
-  
-  tabsetPanel(
-    tabPanel("Max Temperature",   leaflet::leafletOutput("max_temp_map")),
-    tabPanel("Min Temperature",   leaflet::leafletOutput("min_temp_map")),
-    tabPanel("Precipitation", leaflet::leafletOutput("precip_map")),
-    tabPanel("Solar Radiation",   leaflet::leafletOutput("solarrad_map")),
-    tabPanel("Data Table", DTOutput("data_table")),
-    tabPanel("About", 
-             h3("A Shiny App to Display CoAgMet Weather Data",),
-             h5("Displays daily data from the ",
-                a(href = "https://coagmet.colostate.edu/", "CoAgMet"), 
-                "weather station network"
-             ),
-             h5("Data is retrieved from the CoAgMet API using the ", 
-                a(href = "https://github.com/andypicke/rcoagmet", "rcoagmet"),
-                "package"
-             ),
-             h5("Source code for the app is availabe on ",
-                a(href = "https://github.com/andypicke/coagmet_daily_viewer", "github")
-             )
+  page_sidebar(
+    title = "CoAgMet Daily Viewer",
+    
+    sidebar = sidebar(
+      # Date input ; Default value is the date in client's time zone
+      dateInput(inputId = "date_to_plot", 
+                label = "Date To View:", 
+                value = Sys.Date() - 1 , 
+                max = Sys.Date() - 1),
+      # select variable to plot map of
+      selectInput(inputId = "plot_var", 
+                  label = "Variable to Plot", 
+                  choices = c("max_temp", "min_temp", "precip"))
+    ),
+    
+    navset_card_underline(
+      #title = "Visualizations",
+      
+      # Leaflet map
+      nav_panel("Plot", leaflet::leafletOutput("map")),
+      
+      # Data table
+      nav_panel("Table", DTOutput("data_table")),
+      
+      # About
+      nav_panel("About", 
+                h3("A Shiny App to Display CoAgMet Weather Data",),
+                h5("Displays daily data from the ",
+                   a(href = "https://coagmet.colostate.edu/", "CoAgMet"), 
+                   "weather station network"
+                   ),
+                h5("Data is retrieved from the CoAgMet API using the ", 
+                   a(href = "https://github.com/andypicke/rcoagmet", "rcoagmet"),
+                   "package" 
+                   ),
+                h5("Source code for the app is availabe on ",
+                   a(href = "https://github.com/andypicke/coagmet_daily_viewer", "github")
+                   )
+                )
+      )
     )
-  ) # tabsetPanel
-  
-  
-)
+
 
 
 
@@ -83,20 +96,13 @@ server <- function(input, output) {
   # Generate outputs (map function in /R)
   #--------------
   
-  output$max_temp_map <- leaflet::renderLeaflet({
-    map_data_leaflet(data_merged = data_merged(), var_to_plot = "max_temp", display_name = "Max Temperature <br> [&#176; F]")
-  })
   
-  output$min_temp_map <- leaflet::renderLeaflet({
-    map_data_leaflet(data_merged = data_merged(), var_to_plot = "min_temp", display_name = "Min Temperature <br> [&#176; F]")
-  })
-  # 
-  output$precip_map <- leaflet::renderLeaflet({
-    map_data_leaflet(data_merged = data_merged(), var_to_plot = "precip", display_name = "Precipitation <br> [in]")
-  })
+  output$selecttext <- renderText(input$plot_var)
   
-  output$solarrad_map <- leaflet::renderLeaflet({
-    map_data_leaflet(data_merged = data_merged(),  var_to_plot = "solar_rad", display_name = "Solar Radiation <br> [W/m<sup>2</sup>]")
+  output$map <- leaflet::renderLeaflet({
+    map_data_leaflet(data_merged = data_merged(), 
+                     var_to_plot = input$plot_var
+    )
   })
   
   

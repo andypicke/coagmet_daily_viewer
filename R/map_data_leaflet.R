@@ -1,7 +1,17 @@
 
 #-------------- Define function to make leaflet map of data
 
-map_data_leaflet <- function(data_merged, var_to_plot, display_name = ""){
+map_data_leaflet <- function(data_merged, var_to_plot){
+  
+  if (var_to_plot == "max_temp") {
+    display_name <- "Max Temperature <br> [&#176; F]"
+  } else if (var_to_plot == "min_temp") {
+    display_name <- "Min Temperature <br> [&#176; F]"
+  } else if (var_to_plot == "precip") {
+    display_name <- "Precipitation <br> [in]"
+  } else {
+    display_name <- var_to_plot
+  }
   
   dat_to_plot <-  data_merged |>
     dplyr::select(c(name, network, date, longitude_deg_e, latitude_deg_n)) |>
@@ -36,6 +46,6 @@ map_data_leaflet <- function(data_merged, var_to_plot, display_name = ""){
                      fillOpacity = 0.5) |>
     addLegend(values = ~plot_var,
               pal = pal,
-              title = display_name) 
+              title = display_name,) 
   
 }
