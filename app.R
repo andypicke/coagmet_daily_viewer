@@ -112,7 +112,7 @@ server <- function(input, output) {
   output$data_table <- renderDT(
     {
       data_merged() |>
-        select(station, name, location, max_temp, min_temp, precip, solar_rad, rh_min, rh_max) |>
+        select(station, location, max_temp, min_temp, precip, solar_rad, rh_min, rh_max) |>
         mutate(rh_min = round(rh_min, 2)) |>
         mutate(rh_max = round(rh_max, 2)) |>
         datatable(
