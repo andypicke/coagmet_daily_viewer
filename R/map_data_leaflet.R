@@ -46,6 +46,7 @@ map_data_leaflet <- function(data_merged, var_to_plot){
                      fillOpacity = 0.5) |>
     addLegend(values = ~plot_var,
               pal = pal,
-              title = display_name,) 
+              title = display_name) |>
+    leaflet.extras::addResetMapButton()
   
 }
