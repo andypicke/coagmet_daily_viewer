@@ -61,17 +61,18 @@ ui <-
                 h5("Displays daily data from the ",
                    a(href = "https://coagmet.colostate.edu/", "CoAgMet"), 
                    "weather station network"
-                   ),
+                ),
                 h5("Data is retrieved from the CoAgMet API using the ", 
                    a(href = "https://github.com/andypicke/rcoagmet", "rcoagmet"),
                    "package" 
-                   ),
+                ),
                 h5("Source code for the app is availabe on ",
                    a(href = "https://github.com/andypicke/coagmet_daily_viewer", "github")
-                   )
                 )
-      )
-    )
+      ),
+      full_screen = TRUE
+    ) #navset_card_underline
+  )
 
 
 
