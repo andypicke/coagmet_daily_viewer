@@ -54,7 +54,7 @@ ui <-
       nav_panel("Plot", leaflet::leafletOutput("map")),
       
       # Data table
-      nav_panel("Table", DTOutput("data_table")),
+      nav_panel("Data Table", DTOutput("data_table")),
       
       # About
       nav_panel("About", 
@@ -112,7 +112,7 @@ server <- function(input, output) {
   output$data_table <- renderDT(
     {
       data_merged() |>
-        select(station, name, location, max_temp, min_temp, precip, solar_rad) |>
+        select(station, name, location, max_temp, min_temp, precip, solar_rad, rh_min, rh_max) |>
         datatable(
           rownames = FALSE,
           extensions = c("Responsive", "Buttons"),
