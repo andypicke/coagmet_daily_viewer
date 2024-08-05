@@ -44,7 +44,7 @@ ui <-
       # select variable to plot map of
       selectInput(inputId = "plot_var", 
                   label = "Variable to Plot", 
-                  choices = c("max_temp", "min_temp", "precip"))
+                  choices = c("max_temp", "min_temp", "precip", "rh_max", "rh_min"))
     ),
     
     navset_card_underline(

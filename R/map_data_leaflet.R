@@ -18,7 +18,7 @@ map_data_leaflet <- function(data_merged, var_to_plot){
     mutate(plot_var = pull(data_merged[, which(names(data_merged) == var_to_plot)]) ) |>
     filter(!is.na(plot_var))
   
-  if (var_to_plot == "precip") {
+  if (var_to_plot %in% c("precip", "rh_max", "rh_min")) {
     pal <- colorNumeric(palette = "Blues", domain = dat_to_plot$plot_var)
   } else {
     pal <- colorNumeric(palette = "YlOrRd", domain = dat_to_plot$plot_var)
